@@ -14,8 +14,15 @@ public class Main {
 
             String[] nameAndMarks = inputLine.split(":"); //создаем массив из введеной строки, разделяя по -:-
             NameAndMarks nameMarks = new NameAndMarks();
-            nameMarks.name = nameAndMarks[0]; //создаем строку с именем, взяв данные из нулевого элемента массива
-            nameMarks.marksString = nameAndMarks[1]; //создаем строку с оценками, взяв данные из первого элемента массива
+
+            try {
+                nameMarks.name = nameAndMarks[0]; //создаем строку с именем, взяв данные из нулевого элемента массива
+                nameMarks.marksString = nameAndMarks[1]; //создаем строку с оценками, взяв данные из первого элемента массива
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Что-то пошло не так, видимо не корректно введены данные");
+                break;
+            }
+
             String[] marksArray = nameMarks.marksString.split(","); //создаем массив с оценками, разделив строку с оценками по -,-
 
             MaxMinAverage maxMin = new MaxMinAverage();
@@ -24,7 +31,15 @@ public class Main {
             maxMin.average = 0; //создаём переменную для средней оценки
 
             for (String mark : marksArray){ //создаём цикл, что б пройтись по всем оценкам
-                int markInt = Integer.parseInt(mark); //преобразовываем строковое значение оценки в Инт
+                int markInt;
+
+                try {
+                    markInt = Integer.parseInt(mark); //преобразовываем строковое значение оценки в Инт
+                } catch (NumberFormatException e) {
+                    System.out.println("Что-то пошло не так, видимо не корректно введены оценки");
+                     return;
+                }
+
                 if (maxMin.max < markInt){ //ищем максимальный балл
                     maxMin.max = markInt;
                 }
